@@ -18,6 +18,13 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "CampusRunner | Village Food Delivery",
   description: "Premium student food runner service for campus and village.",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", type: "image/x-icon" },
+    ],
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

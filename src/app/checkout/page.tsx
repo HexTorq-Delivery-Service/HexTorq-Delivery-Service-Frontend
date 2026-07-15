@@ -1,7 +1,7 @@
 "use client";
 
 import { useCart } from "@/components/CartContext";
-import { FadeIn } from "@/components/animations/FadeIn";
+
 import { SlideUp } from "@/components/animations/SlideUp";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { MapPin, Navigation, Clock, ShieldCheck, Users } from "lucide-react";
+import { MapPin, Navigation, Users } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function ReceivingPointCard() {
@@ -50,11 +50,24 @@ export function ReceivingPointCard() {
         <div className="flex items-start justify-between mb-6">
            <div>
              <p className="text-xs font-bold text-[#FF6B00] uppercase tracking-wider mb-1">Primary Receiving Point</p>
-             <h3 className="text-xl font-black text-gray-900 leading-none">Campus Main Gate</h3>
+             <h3 className="text-xl font-black text-gray-900 leading-none mb-1.5">Campus Main Gate</h3>
+             <a 
+               href="https://maps.google.com/?q=10.879733,76.928671" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-[#FF6B00] transition-colors"
+             >
+                10°52&apos;47.0&quot;N 76°55&apos;43.2&quot;E
+             </a>
            </div>
-           <div className="p-2 bg-orange-50 rounded-full border border-orange-100">
-             <Navigation className="w-5 h-5 text-[#FF6B00]" />
-           </div>
+           <a 
+             href="https://maps.google.com/?q=10.879733,76.928671" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             className="p-2 bg-orange-50 rounded-full border border-orange-100 hover:bg-[#FF6B00] group/nav transition-colors"
+           >
+             <Navigation className="w-5 h-5 text-[#FF6B00] group-hover/nav:text-white transition-colors" />
+           </a>
         </div>
 
         {/* Live Queue Status */}

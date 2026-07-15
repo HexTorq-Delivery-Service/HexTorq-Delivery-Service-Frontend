@@ -77,15 +77,16 @@
 
 @layer utilities {
   .glass {
-    backdrop-filter: blur(24px);
-    background-color: color-mix(in oklch, var(--background) 60%, transparent);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px) saturate(1.4);
+    -webkit-backdrop-filter: blur(10px) saturate(1.4);
+    background-color: color-mix(in oklch, var(--background) 70%, transparent);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
   }
   
   .dark .glass {
-    background-color: color-mix(in oklch, var(--background) 40%, transparent);
-    border-color: rgba(255, 255, 255, 0.05);
+    background-color: color-mix(in oklch, var(--background) 55%, transparent);
+    border-color: rgba(255, 255, 255, 0.06);
   }
 
   /* From Uiverse.io by denverdelamasa - Customized to origin orange */

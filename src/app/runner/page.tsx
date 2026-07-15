@@ -1,6 +1,6 @@
 "use client";
 import { Card } from "@/components/ui/card";
-import { CheckCircle2, MapPin, Truck } from "lucide-react";
+import { MapPin, Truck } from "lucide-react";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { SlideUp } from "@/components/animations/SlideUp";
 import { Button } from "@/components/ui/button";

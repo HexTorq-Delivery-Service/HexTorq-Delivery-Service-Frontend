@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/CartContext";
-import { ChevronRight, ChevronLeft, Check } from "lucide-react";
+import { Check } from "lucide-react";
 
 const combos = [
   {
@@ -64,11 +64,6 @@ export function ComboBuilder() {
     }, 4000);
     return () => clearInterval(timer);
   }, [isHovered, isAdding]);
-
-  const nextCombo = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % combos.length);
-  };
 
 
 

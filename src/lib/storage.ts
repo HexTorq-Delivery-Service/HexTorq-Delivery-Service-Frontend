@@ -25,6 +25,7 @@ export const toggleFavorite = (item: FavoriteItem): boolean => {
     favorites.push(item);
   }
   localStorage.setItem("favorites_v2", JSON.stringify(favorites));
+  window.dispatchEvent(new Event("favorites_updated"));
   return !isFavorite;
 };
 

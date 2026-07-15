@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import SplitType from "split-type";
-import { MapPin, Search, Bike, CheckSquare, ArrowRight, Zap } from "lucide-react";
+import { Search, Bike, CheckSquare, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -67,7 +67,7 @@ export function HeroSection({ onOrderNow }: { onOrderNow: () => void }) {
 
     // Sequence Animation helper for food
     const applyFloatSequence = (selector: string, driftAmt: number) => {
-      gsap.utils.toArray(selector).forEach((item: any) => {
+      gsap.utils.toArray<Element>(selector).forEach((item) => {
          const seqTl = gsap.timeline({ repeat: -1 });
          seqTl.to(item, { y: -driftAmt, duration: 1, ease: "power2.out", force3D: true })
               .to(item, { scale: 1.03, duration: 0.8, ease: "power1.inOut", force3D: true }, "-=0.5")
@@ -87,7 +87,7 @@ export function HeroSection({ onOrderNow }: { onOrderNow: () => void }) {
   }, { scope: container });
 
   return (
-      <div ref={container} className="relative pt-6 md:pt-12 pb-4 md:pb-24 px-4">
+      <div ref={container} className="relative pt-6 md:pt-12 pb-4 md:pb-10 px-4">
         
 
         {/* ------------------------------------------------------------------ */}

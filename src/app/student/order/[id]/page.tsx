@@ -4,8 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { QrCode, MapPin, PackageCheck, ShoppingBag, CheckCircle2 } from "lucide-react";
 
-export default async function OrderTracking(props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
+export default async function OrderTracking() {
 
   return (
     <div className="container mx-auto px-4 max-w-2xl text-center">

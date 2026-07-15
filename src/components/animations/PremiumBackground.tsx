@@ -22,10 +22,9 @@ export function PremiumBackground() {
 
     if (prefersReduced) return;
 
-    const tl = gsap.timeline();
 
     // LAYER 1: Animated Mesh Gradient (Divs)
-    gsap.utils.toArray('.mesh-node').forEach((node: any) => {
+    gsap.utils.toArray<gsap.TweenTarget>('.mesh-node').forEach((node) => {
       gsap.to(node, {
         x: "random(-15vw, 15vw)",
         y: "random(-15vh, 15vh)",
@@ -38,7 +37,7 @@ export function PremiumBackground() {
     });
 
     // LAYER 2: Aurora Lights
-    gsap.utils.toArray('.aurora-light').forEach((node: any) => {
+    gsap.utils.toArray<gsap.TweenTarget>('.aurora-light').forEach((node) => {
       gsap.to(node, {
         x: "random(-20vw, 20vw)",
         scaleX: "random(1, 1.5)",
@@ -52,7 +51,7 @@ export function PremiumBackground() {
 
     // LAYER 5: Morphing Blobs
     if (!isMobile) {
-      gsap.utils.toArray('.morph-blob').forEach((node: any) => {
+      gsap.utils.toArray<gsap.TweenTarget>('.morph-blob').forEach((node) => {
         gsap.to(node, {
           x: "random(-30vw, 30vw)",
           y: "random(-30vh, 30vh)",
@@ -67,55 +66,12 @@ export function PremiumBackground() {
       });
     }
 
-    // LAYER 6: Light Rays
-    gsap.to('.light-rays', {
-      rotation: 360,
-      duration: 120,
-      repeat: -1,
-      ease: "none",
-      force3D: true
-    });
+    // LAYER 6: Light Rays - now static, no animation needed
 
-    // LAYER 10: Depth Rings
-    gsap.to('.depth-ring', {
-      scale: 1.08,
-      duration: 8,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      force3D: true,
-      stagger: 2
-    });
+    // LAYER 10: Depth Rings - removed for performance
 
-    // Atmosphere & Particles (Parallax & Drift)
-    const driftItems = gsap.utils.toArray('.atmos-drift');
-    driftItems.forEach((node: any, i) => {
-      // Slow drift
-      gsap.to(node, {
-        y: "-=30",
-        x: "random(-20, 20)",
-        rotation: "random(-30, 30)",
-        duration: "random(4, 10)",
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        force3D: true,
-        delay: i * 0.1
-      });
-    });
+    // Global Container Breath - removed for performance
 
-    // Global Container Breath
-    gsap.to('.bg-rotator', {
-      rotation: 2,
-      scale: 1.02,
-      duration: 30,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      force3D: true
-    });
-
-    // SVG Curves Animation (Layer 8)
     if (!isMobile) {
        gsap.fromTo('.svg-curve-path', 
           { strokeDashoffset: 1000 },
@@ -155,10 +111,10 @@ export function PremiumBackground() {
     if (!container.current) return;
     if (window.innerWidth < 768) return; // Disable on mobile
 
-    const orbs = gsap.utils.toArray('.glass-orb');
+    const orbs = gsap.utils.toArray<Element>('.glass-orb');
     // Store quickTo functions for x and y of each orb
-    const xSetters = orbs.map((orb: any) => gsap.quickTo(orb, "x", { duration: 1, ease: "power3" }));
-    const ySetters = orbs.map((orb: any) => gsap.quickTo(orb, "y", { duration: 1, ease: "power3" }));
+    const xSetters = orbs.map((orb) => gsap.quickTo(orb as gsap.TweenTarget, "x", { duration: 1, ease: "power3" }));
+    const ySetters = orbs.map((orb) => gsap.quickTo(orb as gsap.TweenTarget, "y", { duration: 1, ease: "power3" }));
 
     // Spotlight quickTo
     const spotlightX = gsap.quickTo('.mouse-spotlight', 'x', { duration: 0.3, ease: "power2" });
@@ -174,8 +130,8 @@ export function PremiumBackground() {
        spotlightY(clientY - cy);
 
        // Orbs repel slightly
-       orbs.forEach((orb: any, i) => {
-          const rect = orb.getBoundingClientRect();
+       orbs.forEach((orb, i) => {
+          const rect = (orb as HTMLElement).getBoundingClientRect();
           const orbX = rect.left + rect.width / 2;
           const orbY = rect.top + rect.height / 2;
           
@@ -208,29 +164,28 @@ export function PremiumBackground() {
       {/* Container Rotator (Breathing) */}
       <div className="bg-rotator w-full h-full absolute inset-[-10%]">
         
-        {/* Layer 1: Animated Mesh Gradient */}
+        {/* Layer 1: Animated Mesh Gradient - reduced blur for perf */}
         <div className="absolute inset-0 opacity-80 mix-blend-multiply">
-           <div className="mesh-node absolute top-[10%] left-[10%] w-[50vw] h-[50vh] rounded-full bg-[#FFE8CC] blur-[150px]" />
-           <div className="mesh-node absolute top-[20%] right-[10%] w-[60vw] h-[60vh] rounded-full bg-[#FFD8A8] blur-[180px]" />
-           <div className="mesh-node absolute bottom-[10%] left-[20%] w-[55vw] h-[55vh] rounded-full bg-[#FFB357] blur-[160px]" />
-           <div className="mesh-node absolute bottom-[20%] right-[20%] w-[45vw] h-[45vh] rounded-full bg-[#FFF3E8] blur-[140px]" />
+           <div className="mesh-node absolute top-[10%] left-[10%] w-[50vw] h-[50vh] rounded-full bg-[#FFE8CC] blur-[80px]" />
+           <div className="mesh-node absolute top-[20%] right-[10%] w-[60vw] h-[60vh] rounded-full bg-[#FFD8A8] blur-[90px]" />
+           <div className="mesh-node absolute bottom-[10%] left-[20%] w-[55vw] h-[55vh] rounded-full bg-[#FFB357] blur-[80px]" />
+           <div className="mesh-node absolute bottom-[20%] right-[20%] w-[45vw] h-[45vh] rounded-full bg-[#FFF3E8] blur-[70px]" />
         </div>
 
-        {/* Layer 2: Aurora Lights */}
-        <div className="absolute inset-0 opacity-10">
-           <div className="aurora-light absolute top-[-10%] left-0 w-[120%] h-[40vh] bg-gradient-to-r from-transparent via-[#FF6B00] to-transparent blur-[100px]" />
-           <div className="aurora-light absolute top-[40%] left-[-20%] w-[150%] h-[30vh] bg-gradient-to-r from-transparent via-[#FF9F43] to-transparent blur-[80px]" />
+        {/* Layer 2: Aurora Lights - no blur, just gradient opacity */}
+        <div className="absolute inset-0 opacity-[0.06]">
+           <div className="aurora-light absolute top-[-10%] left-0 w-[120%] h-[40vh] bg-gradient-to-r from-transparent via-[#FF6B00] to-transparent" />
+           <div className="aurora-light absolute top-[40%] left-[-20%] w-[150%] h-[30vh] bg-gradient-to-r from-transparent via-[#FF9F43] to-transparent" />
         </div>
 
-        {/* Layer 5: Morphing Blobs */}
-        <div className="hidden md:block absolute inset-0 mix-blend-soft-light opacity-[0.12]">
-           <div className="morph-blob absolute top-1/4 left-1/4 w-[400px] h-[300px] bg-[#FF6B00] blur-[140px] rounded-[40%_60%_70%_30%]" />
-           <div className="morph-blob absolute top-1/3 right-1/4 w-[350px] h-[450px] bg-[#FF9F43] blur-[140px] rounded-[60%_40%_30%_70%]" />
-           <div className="morph-blob absolute bottom-1/4 left-1/3 w-[500px] h-[350px] bg-[#FFE8CC] blur-[140px] rounded-[30%_70%_60%_40%]" />
+        {/* Layer 5: Morphing Blobs - desktop only, reduced blur */}
+        <div className="hidden md:block absolute inset-0 mix-blend-soft-light opacity-[0.08]">
+           <div className="morph-blob absolute top-1/4 left-1/4 w-[300px] h-[220px] bg-[#FF6B00] blur-[80px] rounded-[40%_60%_70%_30%]" />
+           <div className="morph-blob absolute bottom-1/4 left-1/3 w-[350px] h-[250px] bg-[#FFE8CC] blur-[80px] rounded-[30%_70%_60%_40%]" />
         </div>
 
-        {/* Layer 6: Light Rays */}
-        <div className="light-rays absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200vw] h-[200vw] md:w-[150vw] md:h-[150vw] opacity-5 pointer-events-none"
+        {/* Layer 6: Light Rays - static, no animation for perf */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vw] opacity-[0.03] pointer-events-none"
              style={{ background: "repeating-conic-gradient(from 0deg, transparent 0deg, #FF6B00 10deg, transparent 20deg)", maskImage: "radial-gradient(circle, black 20%, transparent 60%)", WebkitMaskImage: "radial-gradient(circle, black 20%, transparent 60%)" }} />
 
         {/* Layer 8: SVG Curves */}
@@ -248,14 +203,14 @@ export function PremiumBackground() {
         {/* Parallax Group (Layer 4 & 9) */}
         <div className="parallax-deep absolute inset-0">
            
-           {/* Layer 9: Particle Field */}
-           {mounted && Array.from({ length: 15 }).map((_, i) => (
-             <div key={`p-${i}`} className="atmos-drift absolute bg-[#FFB347] rounded-full blur-[2px] opacity-[0.15]" 
+           {/* Layer 9: Particle Field - reduced count for perf */}
+           {mounted && Array.from({ length: 6 }).map((_, i) => (
+             <div key={`p-${i}`} className="atmos-drift absolute bg-[#FFB347] rounded-full opacity-[0.12]" 
                   style={{ 
-                     top: `${Math.random() * 120 - 10}%`, 
-                     left: `${Math.random() * 100}%`, 
-                     width: `${Math.random() * 3 + 2}px`, 
-                     height: `${Math.random() * 3 + 2}px` 
+                     top: `${(i * 17 + 5) % 100}%`, 
+                     left: `${(i * 19 + 8) % 100}%`, 
+                     width: `${(i % 3) + 2}px`, 
+                     height: `${(i % 3) + 2}px` 
                   }} />
            ))}
            
@@ -269,15 +224,15 @@ export function PremiumBackground() {
            <div className="atmos-drift absolute top-[30%] right-[20%] w-2 h-2 bg-red-500 rounded-full opacity-10 blur-[1px]" />
            <div className="atmos-drift absolute top-[70%] left-[30%] w-3 h-3 bg-[#FF8A00] rounded-sm opacity-10 transform rotate-45 blur-[1px]" />
            
-           {/* Layer 3: Floating Glass Orbs */}
-           {mounted && Array.from({ length: 8 }).map((_, i) => {
-              const size = Math.random() * 150 + 50;
+           {/* Layer 3: Floating Glass Orbs - no backdrop-blur for perf */}
+           {mounted && Array.from({ length: 5 }).map((_, i) => {
+              const size = [80, 120, 60, 100, 70][i];
               return (
                 <div key={`orb-${i}`} 
-                     className="glass-orb hidden md:block absolute rounded-full bg-white/5 border border-white/20 backdrop-blur-md shadow-[0_10px_30px_rgba(255,107,0,0.05)]"
+                     className="glass-orb hidden md:block absolute rounded-full bg-white/8 border border-white/15 shadow-[0_4px_15px_rgba(255,107,0,0.04)]"
                      style={{
-                        top: `${Math.random() * 80 + 10}%`,
-                        left: `${Math.random() * 80 + 10}%`,
+                        top: `${[15, 60, 30, 75, 45][i]}%`,
+                        left: `${[70, 15, 85, 40, 55][i]}%`,
                         width: `${size}px`,
                         height: `${size}px`,
                      }}

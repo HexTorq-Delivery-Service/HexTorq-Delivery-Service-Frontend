@@ -3,9 +3,8 @@
 import { FadeIn } from "@/components/animations/FadeIn";
 import { SlideUp } from "@/components/animations/SlideUp";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Clock, MapPin, Truck, ArrowLeft } from "lucide-react";
+import { CheckCircle2, Clock, MapPin, Truck, ArrowLeft, Search, Phone, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
@@ -49,33 +48,76 @@ function TrackContent() {
       <div className="container mx-auto px-4 pt-8 max-w-xl">
         {!isTracking ? (
           <FadeIn>
-            <Card className="p-6 glass border-border/50 shadow-xl shadow-black/5">
-              <h2 className="text-2xl font-bold mb-2">Find Your Order</h2>
-              <p className="text-muted-foreground mb-6">Enter your details to track your food.</p>
+            <div className="bg-white/80 backdrop-blur-xl border border-white/60 rounded-[28px] shadow-[0_8px_40px_rgba(255,107,0,0.08)] p-6 sm:p-8">
+              <div className="flex flex-col items-center mb-6 text-center">
+                <div className="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center mb-3 border border-orange-100">
+                  <Search className="w-6 h-6 text-[#FF6B00]" />
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight mb-2">Track Your Order</h2>
+                <p className="text-gray-500 font-medium">Enter your details to see live updates</p>
+              </div>
+              
               <form onSubmit={handleTrack} className="space-y-4">
-                <Input required placeholder="Order ID (e.g. ORD-1234)" value={orderId} onChange={(e) => setOrderId(e.target.value)} className="h-12 bg-background"/>
-                <Input required type="tel" placeholder="Mobile Number" value={mobile} onChange={(e) => setMobile(e.target.value)} className="h-12 bg-background"/>
-                <Button type="submit" className="w-full h-12 bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg">Track Now</Button>
+                <div className="relative">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input 
+                    required 
+                    placeholder="Order ID (e.g. ORD-1234)" 
+                    value={orderId} 
+                    onChange={(e) => setOrderId(e.target.value)} 
+                    className="w-full h-13 pl-11 pr-4 rounded-2xl border-2 border-gray-200 bg-gray-50 focus:bg-white focus:border-[#FF6B00] outline-none font-medium text-gray-900 placeholder:text-gray-400 transition-all py-3.5"
+                  />
+                </div>
+                
+                <div className="relative">
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input 
+                    required 
+                    type="tel" 
+                    placeholder="Mobile Number" 
+                    value={mobile} 
+                    onChange={(e) => setMobile(e.target.value)} 
+                    className="w-full h-13 pl-11 pr-4 rounded-2xl border-2 border-gray-200 bg-gray-50 focus:bg-white focus:border-[#FF6B00] outline-none font-medium text-gray-900 placeholder:text-gray-400 transition-all py-3.5"
+                  />
+                </div>
+                
+                <button 
+                  type="submit" 
+                  className="w-full h-13 mt-2 rounded-2xl bg-gradient-to-r from-[#FF6B00] to-[#FF8A00] text-white font-black text-base shadow-lg shadow-[#FF6B00]/30 hover:shadow-[#FF6B00]/50 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 py-3.5"
+                >
+                  Track Now <ArrowRight className="w-4 h-4" />
+                </button>
               </form>
-            </Card>
+            </div>
           </FadeIn>
         ) : (
           <SlideUp>
-            {/* Success Banner with Wave */}
-            <div className="relative bg-[#FF8A00] text-white rounded-t-3xl p-8 pt-10 text-center overflow-hidden mb-6 shadow-lg shadow-[#FF8A00]/20">
-              <CheckCircle2 className="w-16 h-16 mx-auto mb-4 animate-bounce drop-shadow-md" />
-              <h2 className="text-2xl font-black mb-1 drop-shadow-sm">Order Placed Successfully!</h2>
-              <p className="text-white/90 font-medium mb-6 drop-shadow-sm">Payment Received</p>
-              
-              {/* Animated SVG Wave at bottom */}
-              <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 pointer-events-none">
-                  <svg className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[60px] text-background" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                      <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-current"></path>
-                  </svg>
+            {/* Success Banner */}
+            <div className="relative bg-gradient-to-br from-[#FF8A00] to-[#FF6B00] text-white text-center pt-12 pb-16 px-8 shadow-lg shadow-[#FF8A00]/25 overflow-hidden">
+              {/* Background circles for depth */}
+              <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+
+              {/* Icon with glow ring */}
+              <div className="relative inline-flex items-center justify-center mb-4">
+                <div className="absolute w-20 h-20 bg-white/20 rounded-full animate-ping opacity-30" />
+                <div className="relative w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-9 h-9 text-white drop-shadow" />
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-black mb-1">Order Placed Successfully!</h2>
+              <p className="text-white/85 font-medium">Payment Received</p>
+
+              {/* Clean arc bottom */}
+              <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none pointer-events-none">
+                <svg viewBox="0 0 1200 60" preserveAspectRatio="none" className="w-full h-10 text-background fill-current">
+                  <ellipse cx="600" cy="60" rx="700" ry="60" />
+                </svg>
               </div>
             </div>
 
-            <div className="mb-8 px-2">
+            <div className="mb-8 mt-8 px-2">
               <h2 className="text-2xl font-bold">Order #{orderId}</h2>
               <p className="text-muted-foreground font-medium">Tracking for: {mobile}</p>
             </div>

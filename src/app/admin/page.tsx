@@ -51,7 +51,7 @@ export default function AdminDashboard() {
           </div>
           <div className="space-y-3">
              <div className="flex justify-between items-center py-2 border-b border-border/50">
-               <span className="font-medium">Today's Orders</span>
+               <span className="font-medium">Today&apos;s Orders</span>
                <span className="font-bold">42</span>
              </div>
              <div className="flex justify-between items-center py-2 border-b border-border/50">

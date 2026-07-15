@@ -1,0 +1,21 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Orange background circle -->
+  <circle cx="50" cy="50" r="50" fill="#FF6B00"/>
+
+  <!-- Cloche Dome - White -->
+  <circle cx="50" cy="26" r="6" fill="white"/>
+  <path d="M 22 57 Q 22 30 50 30 Q 78 30 78 57 Z" fill="white"/>
+
+  <!-- Tray - White -->
+  <rect x="14" y="59" width="72" height="6" fill="white"/>
+
+  <!-- Legs - White strokes -->
+  <g fill="none" stroke="white" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 43 65 L 30 82 L 19 73"/>
+    <path d="M 55 65 L 71 76 L 81 90"/>
+  </g>
+
+  <!-- Feet - White -->
+  <path d="M 19 73 C 13 68 9 75 13 80 C 16 85 23 80 19 73 Z" fill="white"/>
+  <path d="M 81 90 C 87 98 94 90 91 84 C 87 78 77 82 81 90 Z" fill="white"/>
+</svg>

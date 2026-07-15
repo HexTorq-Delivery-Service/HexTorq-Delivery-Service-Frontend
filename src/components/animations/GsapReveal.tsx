@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 
 export function GsapReveal({ children, className = "" }: { children: React.ReactNode, className?: string }) {
   const container = useRef<HTMLDivElement>(null);

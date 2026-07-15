@@ -1,12 +1,12 @@
 "use client";
-import { useCart } from "@/components/CartContext";
+
 import { HeroSection } from "@/components/animations/HeroSection";
 import { GsapReveal } from "@/components/animations/GsapReveal";
 import { PremiumBackground } from "@/components/animations/PremiumBackground";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Search, MapPin, Zap, TrendingUp, Wallet, CheckSquare, Users, Bike, Heart } from "lucide-react";
+import { Heart, Search, Phone, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { RunnerLogo } from "@/components/RunnerLogo";
 import { FoodCard } from "@/components/FoodCard";
 import { FloatingCart } from "@/components/FloatingCart";
@@ -16,16 +16,57 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { getFavorites, FavoriteItem } from "@/lib/storage";
+
 
 export default function Home() {
-  const { addItem } = useCart();
   const [activeTab, setActiveTab] = useState("home");
+  const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  
+  const [trackOrderId, setTrackOrderId] = useState("");
+  const [trackMobile, setTrackMobile] = useState("");
+  const router = useRouter();
+
+  // Sync favorites reactively
+  useEffect(() => {
+    const loadFavs = () => {
+      if (activeTab === "favorites") {
+        setFavorites(getFavorites());
+      }
+    };
+    // Load immediately on tab switch
+    loadFavs();
+    
+    // Also listen for any heart toggles across the app
+    window.addEventListener("favorites_updated", loadFavs);
+    return () => window.removeEventListener("favorites_updated", loadFavs);
+  }, [activeTab]);
+
+  // Load user session
+  useEffect(() => {
+    const stored = localStorage.getItem("user");
+    if (stored) setUser(JSON.parse(stored));
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
+  const handleTrackSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (trackOrderId && trackMobile) {
+      router.push(`/track?id=${encodeURIComponent(trackOrderId)}&mobile=${encodeURIComponent(trackMobile)}`);
+    }
+  };
 
   const scrollToTrending = () => {
     document.getElementById("trending")?.scrollIntoView({ behavior: "smooth" });
   };
+
 
   return (
     <main className="min-h-screen relative pb-32 selection:bg-primary/30 selection:text-primary">
@@ -39,6 +80,28 @@ export default function Home() {
               FoodHub Campus
             </span>
           </div>
+          {/* Auth Button */}
+          {user ? (
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:flex flex-col items-end">
+                <span className="text-xs text-muted-foreground font-medium">Hey,</span>
+                <span className="text-sm font-black text-foreground capitalize">{user.name}</span>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="w-9 h-9 rounded-full bg-primary/10 text-primary font-black text-sm flex items-center justify-center uppercase hover:bg-primary/20 transition-colors"
+                title="Logout"
+              >
+                {user.name[0]}
+              </button>
+            </div>
+          ) : (
+            <Link href="/auth/login">
+              <Button size="sm" className="rounded-full bg-[#FF6B00] hover:bg-[#FF8A00] text-white font-bold px-5 shadow-md shadow-[#FF6B00]/20">
+                Login
+              </Button>
+            </Link>
+          )}
         </div>
       </nav>
 
@@ -51,14 +114,14 @@ export default function Home() {
         {/* ========================================================= */}
         {/* HOTELS TAB CONTENT (Mobile) / ALL CONTENT (Desktop) */}
         {/* ========================================================= */}
-        <div className={cn("space-y-12 md:space-y-20 pt-6 md:pt-0", activeTab === "hotels" ? "block" : "hidden md:block md:mt-20")}>
+        <div className={cn("space-y-8 md:space-y-12 pt-6 md:pt-0", activeTab === "hotels" ? "block" : "hidden md:block md:mt-8")}>
           
           {/* Categories */}
           <GsapReveal>
             <div className="flex items-center gap-2 mb-6 md:hidden">
               <h2 className="text-2xl font-black">Categories</h2>
             </div>
-            <div className="flex gap-6 overflow-x-auto pb-4 snap-x hide-scrollbar px-1">
+            <div className="flex md:justify-center gap-6 md:gap-10 overflow-x-auto pb-4 snap-x hide-scrollbar px-1">
                {[
                  { name: "Chicken", img: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?q=80&w=200&auto=format&fit=crop" },
                  { name: "Pizza", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=200&auto=format&fit=crop" },
@@ -93,7 +156,7 @@ export default function Home() {
               <div className="p-5">
                 <div className="flex justify-between items-start mb-4">
                    <div>
-                     <p className="text-xs font-bold text-primary mb-1 uppercase tracking-wider">Today's Special</p>
+                     <p className="text-xs font-bold text-primary mb-1 uppercase tracking-wider">Today&apos;s Special</p>
                      <p className="font-bold text-lg">Chicken Meals</p>
                      <p className="text-xl font-black text-foreground">₹120</p>
                    </div>
@@ -201,7 +264,7 @@ export default function Home() {
         {/* ========================================================= */}
         {/* HOME TAB CONTENT (Mobile) / ALL CONTENT (Desktop) */}
         {/* ========================================================= */}
-        <div className={cn("space-y-8 md:space-y-20", activeTab === "home" ? "block mt-4 md:mt-0" : "hidden md:block md:mt-20")}>
+        <div className={cn("space-y-8 md:space-y-12", activeTab === "home" ? "block mt-4 md:mt-0" : "hidden md:block md:mt-20")}>
         
         {/* Trending Section */}
         <GsapReveal>
@@ -209,16 +272,10 @@ export default function Home() {
             <h2 className="text-lg md:text-xl font-black text-[#FF6B00] uppercase tracking-wide">POPULAR RIGHT NOW 🔥</h2>
             <Link href="#" className="text-sm font-bold text-[#FF6B00] hover:underline">View All &rarr;</Link>
           </div>
-          <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x hide-scrollbar px-1">
-            <div className="w-[260px] sm:w-[300px] shrink-0 snap-center">
-              <FoodCard id="t1" name="Chicken Fried Rice" price={90} hotel="Sri Murugan Mess" isVeg={false} popular />
-            </div>
-            <div className="w-[260px] sm:w-[300px] shrink-0 snap-center">
-              <FoodCard id="t2" name="Egg Kothu Parotta" price={80} hotel="Amma Hotel" isVeg={false} popular />
-            </div>
-            <div className="w-[260px] sm:w-[300px] shrink-0 snap-center">
-              <FoodCard id="t3" name="Veg Meals" price={70} hotel="A2B Hotel" isVeg={true} popular />
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 pt-2">
+            <FoodCard id="t1" name="Chicken Fried Rice" price={90} hotel="Sri Murugan Mess" isVeg={false} popular image="https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=500&auto=format&fit=crop" />
+            <FoodCard id="t2" name="Egg Kothu Parotta" price={80} hotel="Amma Hotel" isVeg={false} popular image="https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=500&auto=format&fit=crop" />
+            <FoodCard id="t3" name="Veg Meals" price={70} hotel="A2B Hotel" isVeg={true} popular image="https://images.unsplash.com/photo-1546833999-b9f581a1996d?q=80&w=500&auto=format&fit=crop" />
           </div>
         </GsapReveal>
 
@@ -240,8 +297,53 @@ export default function Home() {
         {/* ========================================================= */}
         {/* TRACK TAB CONTENT (Mobile) / ALL CONTENT (Desktop) */}
         {/* ========================================================= */}
-        <div className={cn("space-y-12 md:space-y-20 pt-6", activeTab === "track" ? "block" : "hidden md:block md:mt-20")}>
+        <div className={cn("space-y-8 md:space-y-20 pt-6", activeTab === "track" ? "block" : "hidden md:block md:mt-20")}>
         
+        {/* Track Order Search Card (Mobile focused) */}
+        <GsapReveal>
+          <div className="bg-white/80 backdrop-blur-xl border border-white/60 rounded-[28px] shadow-[0_8px_40px_rgba(255,107,0,0.08)] p-6 sm:p-8 md:hidden mb-8">
+            <div className="flex flex-col items-center mb-6 text-center">
+              <div className="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center mb-3 border border-orange-100">
+                <Search className="w-6 h-6 text-[#FF6B00]" />
+              </div>
+              <h2 className="text-2xl font-black text-gray-900 tracking-tight mb-2">Track Your Order</h2>
+              <p className="text-sm text-gray-500 font-medium">Enter your details to see live updates</p>
+            </div>
+            
+            <form onSubmit={handleTrackSubmit} className="space-y-4">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input 
+                  required 
+                  placeholder="Order ID (e.g. ORD-1234)" 
+                  value={trackOrderId} 
+                  onChange={(e) => setTrackOrderId(e.target.value)} 
+                  className="w-full h-12 pl-11 pr-4 rounded-2xl border-2 border-gray-200 bg-gray-50 focus:bg-white focus:border-[#FF6B00] outline-none font-medium text-gray-900 placeholder:text-gray-400 transition-all py-3.5 text-sm"
+                />
+              </div>
+              
+              <div className="relative">
+                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input 
+                  required 
+                  type="tel" 
+                  placeholder="Mobile Number" 
+                  value={trackMobile} 
+                  onChange={(e) => setTrackMobile(e.target.value)} 
+                  className="w-full h-12 pl-11 pr-4 rounded-2xl border-2 border-gray-200 bg-gray-50 focus:bg-white focus:border-[#FF6B00] outline-none font-medium text-gray-900 placeholder:text-gray-400 transition-all py-3.5 text-sm"
+                />
+              </div>
+              
+              <button 
+                type="submit" 
+                className="w-full h-12 mt-2 rounded-2xl bg-gradient-to-r from-[#FF6B00] to-[#FF8A00] text-white font-black text-sm shadow-lg shadow-[#FF6B00]/30 hover:shadow-[#FF6B00]/50 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2 py-3.5"
+              >
+                Track Now <ArrowRight className="w-4 h-4" />
+              </button>
+            </form>
+          </div>
+        </GsapReveal>
+
         {/* Innovative Receiving Point Map */}
         <GsapReveal>
           <ReceivingPointCard />
@@ -255,13 +357,29 @@ export default function Home() {
           <GsapReveal>
             <div className="mb-6">
               <h2 className="text-2xl font-black text-primary">Your Favorites</h2>
-              <p className="text-muted-foreground text-sm">Items you've loved</p>
+              <p className="text-muted-foreground text-sm">Items you&apos;ve loved</p>
             </div>
-            <Card className="p-8 glass border-border/50 text-center bg-card flex flex-col items-center justify-center">
-              <Heart className="w-12 h-12 text-muted-foreground/30 mb-4" />
-              <h3 className="text-lg font-bold mb-2">No Favorites Yet</h3>
-              <p className="text-sm text-muted-foreground">Tap the heart icon on any food item to save it here.</p>
-            </Card>
+            {favorites.length === 0 ? (
+              <Card className="p-8 glass border-border/50 text-center bg-card flex flex-col items-center justify-center">
+                <Heart className="w-12 h-12 text-muted-foreground/30 mb-4" />
+                <h3 className="text-lg font-bold mb-2">No Favorites Yet</h3>
+                <p className="text-sm text-muted-foreground">Tap the heart icon on any food item to save it here.</p>
+              </Card>
+            ) : (
+              <div className="grid grid-cols-2 gap-4">
+                {favorites.map((item) => (
+                  <FoodCard
+                    key={item.id}
+                    id={item.id}
+                    name={item.name}
+                    price={item.price}
+                    hotel={item.hotel}
+                    isVeg={item.isVeg}
+                    image={item.image}
+                  />
+                ))}
+              </div>
+            )}
           </GsapReveal>
         </div>
 
