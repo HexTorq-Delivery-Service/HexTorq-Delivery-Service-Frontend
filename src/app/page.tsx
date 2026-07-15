@@ -5,6 +5,7 @@ import { GsapReveal } from "@/components/animations/GsapReveal";
 import { PremiumBackground } from "@/components/animations/PremiumBackground";
 import { Button } from "@/components/ui/button";
 import { Heart, Search, Phone, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { RunnerLogo } from "@/components/RunnerLogo";
@@ -132,7 +133,7 @@ export default function Home() {
                ].map((cat, i) => (
                  <div key={i} className="flex flex-col items-center gap-3 shrink-0 snap-center cursor-pointer group">
                     <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-card border-[3px] border-border/50 flex items-center justify-center shadow-sm overflow-hidden group-hover:shadow-md group-hover:border-primary/60 group-hover:-translate-y-1 transition-all duration-300">
-                       <img src={cat.img} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                       <Image src={cat.img} alt={cat.name} fill sizes="80px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                     </div>
                     <span className="font-bold text-xs sm:text-sm text-muted-foreground group-hover:text-primary transition-colors">{cat.name}</span>
                  </div>
@@ -146,7 +147,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-6">
             <Card className="overflow-hidden glass border-border/50 group cursor-pointer hover:border-primary/30 transition-all">
               <div className="h-32 bg-muted/30 relative overflow-hidden">
-                 <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Amma Hotel" />
+                 <Image src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800&auto=format&fit=crop" alt="Amma Hotel" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/10 z-0 pointer-events-none" />
                  <div className="absolute bottom-4 left-4 text-white z-10">
                     <h3 className="text-2xl font-black">AMMA HOTEL</h3>
@@ -203,7 +204,7 @@ export default function Home() {
 
             <Card className="overflow-hidden glass border-border/50 group cursor-pointer hover:border-primary/30 transition-all">
               <div className="h-32 bg-muted/30 relative overflow-hidden">
-                 <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800&auto=format&fit=crop" className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Village Dhaba" />
+                 <Image src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800&auto=format&fit=crop" alt="Village Dhaba" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/10 z-0 pointer-events-none" />
                  <div className="absolute bottom-4 left-4 text-white z-10">
                     <h3 className="text-2xl font-black">VILLAGE DHABA</h3>

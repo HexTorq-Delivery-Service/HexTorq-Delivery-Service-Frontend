@@ -3,6 +3,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Heart, Star } from "lucide-react";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { toggleFavorite, getFavorites } from "@/lib/storage";
 import { useCart } from "@/components/CartContext";
@@ -63,9 +64,9 @@ export function FoodCard({ id, name, price, hotel, isVeg, image, popular }: Food
     <Card className="overflow-hidden cursor-pointer group hover:-translate-y-1 transition-all duration-300 bg-white border-0 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgba(255,107,0,0.12)] rounded-[24px] flex flex-col h-full relative">
       <div className="relative h-[140px] sm:h-[160px] w-full overflow-hidden bg-orange-50">
         {image ? (
-          <img src={image} alt={name} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out" />
+          <Image src={image} alt={name} fill sizes="(min-width: 640px) 320px, 100vw" className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
         ) : (
-          <img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?q=80&w=500&auto=format&fit=crop" className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out opacity-90" alt="Food Placeholder" />
+          <Image src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?q=80&w=500&auto=format&fit=crop" alt="Food Placeholder" fill sizes="(min-width: 640px) 320px, 100vw" className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out opacity-90" />
         )}
 
         {/* Favorite Button */}

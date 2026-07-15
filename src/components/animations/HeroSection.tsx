@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export function HeroSection({ onOrderNow }: { onOrderNow: () => void }) {
   const container = useRef<HTMLDivElement>(null);
@@ -112,17 +113,17 @@ export function HeroSection({ onOrderNow }: { onOrderNow: () => void }) {
               
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 food-mobile-item">
                  <div className="w-[110px] h-[110px] rounded-full overflow-hidden border-[4px] border-white/90 shadow-xl relative group">
-                   <img src="/biryani_3d.png" alt="Biryani" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                   <Image src="/biryani_3d.png" alt="Biryani" fill sizes="110px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                  </div>
               </div>
               <div className="absolute top-2 left-0 z-30 food-mobile-item">
                  <div className="w-14 h-14 rounded-full overflow-hidden border-[3px] border-white/90 shadow-lg relative group">
-                   <img src="/burger_3d.png" alt="Burger" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                   <Image src="/burger_3d.png" alt="Burger" fill sizes="56px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                  </div>
               </div>
               <div className="absolute bottom-4 right-1 z-10 food-mobile-item">
                  <div className="w-12 h-12 rounded-full overflow-hidden border-[3px] border-white/90 shadow-lg relative group">
-                   <img src="/drink_3d.png" alt="Drink" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                   <Image src="/drink_3d.png" alt="Drink" fill sizes="48px" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                  </div>
               </div>
             </div>
@@ -228,7 +229,7 @@ export function HeroSection({ onOrderNow }: { onOrderNow: () => void }) {
                {/* Main Center Image */}
                <div className="parallax-layer-1 absolute z-30">
                  <div className="w-[280px] h-[280px] lg:w-[360px] lg:h-[360px] rounded-full overflow-hidden border-[8px] border-white/60 shadow-[0_20px_50px_rgba(255,107,0,0.2)] food-item group relative">
-                    <img src="/biryani_3d.png" alt="Biryani" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <Image src="/biryani_3d.png" alt="Biryani" fill sizes="(min-width: 1024px) 360px, 280px" className="object-cover group-hover:scale-110 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent pointer-events-none" />
                  </div>
                </div>
@@ -236,14 +237,14 @@ export function HeroSection({ onOrderNow }: { onOrderNow: () => void }) {
                {/* Top Left Floating Image */}
                <div className="parallax-layer-2 absolute top-8 left-0 lg:top-12 lg:left-4 z-40">
                  <div className="w-[160px] h-[160px] lg:w-[200px] lg:h-[200px] rounded-full overflow-hidden border-[6px] border-white/60 shadow-2xl food-item group relative">
-                    <img src="/burger_3d.png" alt="Burger" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <Image src="/burger_3d.png" alt="Burger" fill sizes="(min-width: 1024px) 200px, 160px" className="object-cover group-hover:scale-110 transition-transform duration-700" />
                  </div>
                </div>
 
                {/* Bottom Right Floating Image */}
                <div className="parallax-layer-2 absolute bottom-8 right-0 lg:bottom-16 lg:right-4 z-20 hidden md:block">
                  <div className="w-[180px] h-[180px] lg:w-[220px] lg:h-[220px] rounded-full overflow-hidden border-[6px] border-white/60 shadow-2xl food-item group relative">
-                    <img src="/drink_3d.png" alt="Drink" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <Image src="/drink_3d.png" alt="Drink" fill sizes="(min-width: 1024px) 220px, 180px" className="object-cover group-hover:scale-110 transition-transform duration-700" />
                  </div>
                </div>
 
