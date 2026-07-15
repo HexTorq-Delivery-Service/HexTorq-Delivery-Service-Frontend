@@ -1,0 +1,99 @@
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .theme {
+    --font-heading: var(--font-sans);
+    --font-sans: var(--font-sans);
+  }
+  :root {
+    --background: oklch(0.98 0.01 90);
+    --foreground: oklch(0.20 0.02 45);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.20 0.02 45);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.20 0.02 45);
+    --primary: oklch(0.65 0.18 45); /* Orange */
+    --primary-foreground: oklch(0.98 0.01 90);
+    --secondary: oklch(0.94 0.02 90);
+    --secondary-foreground: oklch(0.65 0.18 45);
+    --muted: oklch(0.94 0.02 90);
+    --muted-foreground: oklch(0.55 0.02 45);
+    --accent: oklch(0.94 0.02 90);
+    --accent-foreground: oklch(0.65 0.18 45);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.90 0.02 90);
+    --input: oklch(0.90 0.02 90);
+    --ring: oklch(0.65 0.18 45);
+    
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    
+    --radius: 1.5rem; /* 24px as requested */
+  }
+  .dark {
+    --background: oklch(0.18 0.02 45);
+    --foreground: oklch(0.98 0.01 90);
+    --card: oklch(0.22 0.02 45);
+    --card-foreground: oklch(0.98 0.01 90);
+    --popover: oklch(0.22 0.02 45);
+    --popover-foreground: oklch(0.98 0.01 90);
+    --primary: oklch(0.65 0.18 45); /* Orange */
+    --primary-foreground: oklch(0.18 0.02 45);
+    --secondary: oklch(0.25 0.02 45);
+    --secondary-foreground: oklch(0.98 0.01 90);
+    --muted: oklch(0.25 0.02 45);
+    --muted-foreground: oklch(0.70 0.02 45);
+    --accent: oklch(0.25 0.02 45);
+    --accent-foreground: oklch(0.98 0.01 90);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(0.30 0.02 45);
+    --input: oklch(0.30 0.02 45);
+    --ring: oklch(0.65 0.18 45);
+    
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+  }
+  * {
+    border-color: var(--border);
+    outline-color: var(--ring);
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+@layer utilities {
+  .glass {
+    backdrop-filter: blur(24px);
+    background-color: color-mix(in oklch, var(--background) 60%, transparent);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .glass {
+    background-color: color-mix(in oklch, var(--background) 40%, transparent);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+
+  /* From Uiverse.io by denverdelamasa - Customized to origin orange */
+  .pattern-longbar {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0000 18.75%, #FF8A00 0 31.25%, #0000 0),
+      repeating-linear-gradient(45deg, #FF8A00 -6.25% 6.25%, #FF6B00 0 18.75%);
+    background-size: 64px 64px;
+  }
+}

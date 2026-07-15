@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Hotel {
+  id        String   @id @default(cuid())
+  name      String
+  location  String?
+  image     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  menuItems MenuItem[]
+}
+
+model MenuItem {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  image       String?
+  category    String?
+  isVeg       Boolean  @default(true)
+  isAvailable Boolean  @default(true)
+  hotelId     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  hotel       Hotel    @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  orderItems  OrderItem[]
+}
+
+model Order {
+  id            String      @id @default(cuid())
+  studentName   String
+  mobileNumber  String
+  paymentMethod String      @default("CASH")
+  notes         String?
+  token         String      @unique
+  status        OrderStatus @default(PENDING)
+  total         Float
+  pickupSlot    String
+  qrCode        String      @unique @default(uuid())
+  tripId        String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  trip          Trip?       @relation(fields: [tripId], references: [id])
+  items         OrderItem[]
+}
+
+enum OrderStatus {
+  PENDING
+  QUEUED
+  SHOPPING
+  PURCHASED
+  READY_FOR_PICKUP
+  COLLECTED
+  CANCELLED
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  menuItemId String
+  quantity   Int
+  price      Float    
+
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+}
+
+model Trip {
+  id          String     @id @default(cuid())
+  runnerName  String?
+  status      TripStatus @default(PENDING)
+  startTime   DateTime?
+  endTime     DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  orders      Order[]
+}
+
+enum TripStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
